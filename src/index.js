@@ -1,4 +1,6 @@
-import { Keyboard } from './Keyboard.js';
+/* eslint-disable */
+import Keyboard from './Keyboard.js';
+/* eslint-enable */
 
 const container = document.createElement('div');
 container.classList.add('container');

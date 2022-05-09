@@ -1,9 +1,10 @@
+/* eslint-disable */
 import { ru, en, ruU, enU, codes } from './language.js';
+/* eslint-enable */
 
-export class Keyboard {
+export default class Keyboard {
   constructor() {
-    this.currentLanguage =
-      JSON.parse(localStorage.getItem('currentLanguage')) || en;
+    this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage')) || en;
   }
 
   render(element) {
@@ -58,7 +59,9 @@ export class Keyboard {
     this.initKeys();
   }
 
+  /* eslint-disable */
   generateKeys(keys) {
+  /* eslint-enable */
     let result = '';
 
     keys.forEach((key) => {
@@ -74,7 +77,7 @@ export class Keyboard {
     this.keys = document.querySelectorAll('.key');
     this.textarea = document.querySelector('.text');
 
-    for (let i = 0; i < this.keys.length; i++) {
+    for (let i = 0; i < this.keys.length; i += 1) {
       this.keys[i].addEventListener('mouseover', () => {
         this.keys[i].style.color = '#fff';
         this.keys[i].style.backgroundColor = '#353535';
@@ -122,12 +125,11 @@ export class Keyboard {
           case enU[0]:
             localStorage.setItem('currentLanguage', JSON.stringify(en));
             break;
+
+          default: break;
         }
 
-        this.currentLanguage = JSON.parse(
-          localStorage.getItem('currentLanguage')
-        );
-        console.log(this.currentLanguage);
+        this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
         this.remove();
         this.render(document.querySelector('.container'));
 
@@ -149,11 +151,11 @@ export class Keyboard {
           case enU[0]:
             localStorage.setItem('currentLanguage', JSON.stringify(en));
             break;
+
+          default: break;
         }
 
-        this.currentLanguage = JSON.parse(
-          localStorage.getItem('currentLanguage')
-        );
+        this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
         this.remove();
         this.render(document.querySelector('.container'));
 
@@ -163,12 +165,10 @@ export class Keyboard {
         const start = this.textarea.selectionStart;
         const end = this.textarea.selectionEnd;
 
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '\t' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}\t${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         document.getElementById(e.code).classList.add('active');
       } else if (e.code === 'ContextMenu') {
         e.preventDefault();
@@ -180,17 +180,15 @@ export class Keyboard {
         const start = this.textarea.selectionStart;
         const end = this.textarea.selectionEnd;
 
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          document
-            .getElementById(e.code)
-            .innerHTML.replace('&lt;', '<')
-            .replace('&gt;', '>') +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}${document
+          .getElementById(e.code)
+          .innerHTML.replace('&lt;', '<')
+          .replace('&gt;', '>')}${this.textarea.value.substring(end)}`;
 
-        for (let i = 0; i < this.keys.length; i++) {
-          if (e.key === this.keys[i].getAttribute('keyname'))
+        for (let i = 0; i < this.keys.length; i += 1) {
+          if (e.key === this.keys[i].getAttribute('keyname')) {
             this.keys[i].classList.add('active');
+          }
         }
       }
     } else {
@@ -199,12 +197,10 @@ export class Keyboard {
       const tmpKey = e.target.closest('.key');
 
       if (tmpKey.hasAttribute('keyname')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          tmpKey.getAttribute('keyname') +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}${tmpKey.getAttribute('keyname')}${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
@@ -214,88 +210,73 @@ export class Keyboard {
       }
 
       if (tmpKey.classList.contains('tab')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '\t' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}\t${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.classList.contains('enter')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '\n' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}\n${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.classList.contains('del')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          this.textarea.value.substring(start + 1);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}${this.textarea.value.substring(start + 1)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.classList.contains('space')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          ' ' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)} ${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.querySelector('.arrow-left')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '←' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}←${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.querySelector('.arrow-up')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '↑' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}↑${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.querySelector('.arrow-down')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '↓' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}↓${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
 
       if (tmpKey.querySelector('.arrow-right')) {
-        this.textarea.value =
-          this.textarea.value.substring(0, start) +
-          '→' +
-          this.textarea.value.substring(end);
+        this.textarea.value = `${this.textarea.value.substring(0, start)}→${this.textarea.value.substring(end)}`;
 
-        this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
+        this.textarea.selectionStart = start + 1;
+        this.textarea.selectionEnd = start + 1;
         return;
       }
     }
 
     if (
-      document.getElementById('ControlLeft').classList.contains('active') &&
-      document.getElementById('AltLeft').classList.contains('active')
+      document.getElementById('ControlLeft').classList.contains('active')
+      && document.getElementById('AltLeft').classList.contains('active')
     ) {
       switch (this.currentLanguage[0]) {
         case ru[0]:
@@ -313,11 +294,11 @@ export class Keyboard {
         case enU[0]:
           localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
+
+        default: break;
       }
 
-      this.currentLanguage = JSON.parse(
-        localStorage.getItem('currentLanguage')
-      );
+      this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
       this.remove();
       this.render(document.querySelector('.container'));
       document.getElementById('ControlLeft').classList.add('active');
@@ -343,28 +324,30 @@ export class Keyboard {
         case enU[0]:
           localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
+
+        default: break;
       }
 
-      this.currentLanguage = JSON.parse(
-        localStorage.getItem('currentLanguage')
-      );
+      this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
       this.remove();
       this.render(document.querySelector('.container'));
 
       document.getElementById(e.code).classList.remove('active');
-    } else if (!document.getElementById(e.code).hasAttribute('keyname'))
+    } else if (!document.getElementById(e.code).hasAttribute('keyname')) {
       document.getElementById(e.code).classList.remove('active');
-    else
-      for (let i = 0; i < this.keys.length; i++) {
-        if (e.key === this.keys[i].getAttribute('keyname'))
+    } else {
+      for (let i = 0; i < this.keys.length; i += 1) {
+        if (e.key === this.keys[i].getAttribute('keyname')) {
           this.keys[i].classList.remove('active');
+        }
       }
+    }
   }
 
   mouseDown(e) {
     if (
-      e.target.closest('.key') === document.getElementById('ShiftLeft') ||
-      e.target.closest('.key') === document.getElementById('ShiftRight')
+      e.target.closest('.key') === document.getElementById('ShiftLeft')
+      || e.target.closest('.key') === document.getElementById('ShiftRight')
     ) {
       switch (this.currentLanguage[0]) {
         case ru[0]:
@@ -382,10 +365,12 @@ export class Keyboard {
         case enU[0]:
           localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
+
+        default: break;
       }
     } else if (
-      e.target.closest('.key') === document.getElementById('AltLeft') &&
-      document.getElementById('ControlLeft').classList.contains('active')
+      e.target.closest('.key') === document.getElementById('AltLeft')
+      && document.getElementById('ControlLeft').classList.contains('active')
     ) {
       switch (this.currentLanguage[0]) {
         case ru[0]:
@@ -403,11 +388,11 @@ export class Keyboard {
         case enU[0]:
           localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
+
+        default: break;
       }
 
-      this.currentLanguage = JSON.parse(
-        localStorage.getItem('currentLanguage')
-      );
+      this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
       this.remove();
       this.render(document.querySelector('.container'));
       document.getElementById('ControlLeft').classList.add('active');
@@ -421,8 +406,8 @@ export class Keyboard {
 
   mouseUp(e) {
     if (
-      e.target.closest('.key') === document.getElementById('ShiftLeft') ||
-      e.target.closest('.key') === document.getElementById('ShiftRight')
+      e.target.closest('.key') === document.getElementById('ShiftLeft')
+      || e.target.closest('.key') === document.getElementById('ShiftRight')
     ) {
       switch (this.currentLanguage[0]) {
         case ru[0]:
@@ -440,15 +425,16 @@ export class Keyboard {
         case enU[0]:
           this.currentLanguage = en;
           break;
+
+        default: break;
       }
       this.remove();
       this.render(document.querySelector('.container'));
-
-      return;
     }
   }
 
   remove() {
-    document.querySelector('.keyboard').remove();
+    this.keyboard = document.querySelector('.keyboard');
+    this.keyboard.remove();
   }
 }
