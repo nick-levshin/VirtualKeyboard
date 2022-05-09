@@ -1,9 +1,5 @@
 import { Keyboard } from './Keyboard.js';
 
-const radios = `
-
-`;
-
 const container = document.createElement('div');
 container.classList.add('container');
 document.body.prepend(container);

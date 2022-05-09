@@ -62,7 +62,7 @@ export class Keyboard {
 
     keys.forEach((key) => {
       result += `
-        <div class="key" keyname="${key}">${key}</div>
+        <div class="key">${key}</div>
       `;
     });
 
@@ -70,36 +70,34 @@ export class Keyboard {
   }
 
   initKeys() {
-    // this.keyboard = document.querySelector('.keyboard');
     this.keys = document.querySelectorAll('.key');
-    // this.space = document.querySelector('.space');
-    // this.shiftLeft = document.querySelector('.shift-left');
-    // this.shiftRight = document.querySelector('.shift-right');
-    // this.altLeft = document.querySelector('.alt-left');
-    // this.altRight = document.querySelector('.alt-right');
-    // this.ctrlLeft = document.querySelector('.ctrl-left');
-    // this.ctrlRight = document.querySelector('.ctrl-right');
-    // this.caps = document.querySelector('.caps');
-    // this.tab = document.querySelector('.tab');
-    // this.del = document.querySelector('.del');
-    // this.arrowLeft = document.querySelector('.left');
-    // this.arrowUp = document.querySelector('.up');
-    // this.arrowDown = document.querySelector('.down');
-    // this.arrowRight = document.querySelector('.right');
     this.textarea = document.querySelector('.text');
-    // this.enter = document.querySelector('.enter');
-    // this.backspace = document.querySelector('.backspace');
 
     for (let i = 0; i < this.keys.length; i++) {
-      this.keys[i].addEventListener('mouseover', () =>
-        this.keys[i].classList.add('active')
-      );
-      this.keys[i].addEventListener('mouseout', () =>
-        this.keys[i].classList.remove('active')
-      );
+      this.keys[i].addEventListener('mouseover', () => {
+        this.keys[i].style.color = '#fff';
+        this.keys[i].style.backgroundColor = '#353535';
+      });
+      this.keys[i].addEventListener('mouseout', () => {
+        this.keys[i].style.color = '#000';
+        this.keys[i].style.backgroundColor = '#fff';
+      });
       this.keys[i].addEventListener('click', (e) => this.keyDown(e, 'mouse'));
       this.keys[i].setAttribute('id', codes[i]);
     }
+
+    document.querySelectorAll('.ctrl').forEach((element) => {
+      element.addEventListener('mousedown', (e) => this.mouseDown(e));
+      element.addEventListener('mouseup', (e) => this.mouseUp(e));
+    });
+    document.querySelectorAll('.shift').forEach((element) => {
+      element.addEventListener('mousedown', (e) => this.mouseDown(e));
+      element.addEventListener('mouseup', (e) => this.mouseUp(e));
+    });
+    document.querySelectorAll('.alt').forEach((element) => {
+      element.addEventListener('mousedown', (e) => this.mouseDown(e));
+      element.addEventListener('mouseup', (e) => this.mouseUp(e));
+    });
   }
 
   keyDown(e, type) {
@@ -129,9 +127,7 @@ export class Keyboard {
         this.render(document.querySelector('.container'));
 
         document.getElementById(e.code).classList.add('active');
-      }
-
-      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+      } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
         switch (this.currentLanguage) {
           case ru:
             this.currentLanguage = ruU;
@@ -154,8 +150,7 @@ export class Keyboard {
         this.render(document.querySelector('.container'));
 
         document.getElementById(e.code).classList.add('active');
-      }
-      if (e.code === 'Tab') {
+      } else if (e.code === 'Tab') {
         e.preventDefault();
         const start = this.textarea.selectionStart;
         const end = this.textarea.selectionEnd;
@@ -179,7 +174,10 @@ export class Keyboard {
 
         this.textarea.value =
           this.textarea.value.substring(0, start) +
-          document.getElementById(e.code).innerHTML +
+          document
+            .getElementById(e.code)
+            .innerHTML.replace('&lt;', '<')
+            .replace('&gt;', '>') +
           this.textarea.value.substring(end);
 
         for (let i = 0; i < this.keys.length; i++) {
@@ -195,7 +193,7 @@ export class Keyboard {
       if (tmpKey.hasAttribute('keyname')) {
         this.textarea.value =
           this.textarea.value.substring(0, start) +
-          tmpKey.getAttribute('keyname') +
+          tmpKey.innerHTML.replace('&lt;', '<').replace('&gt;', '>') +
           this.textarea.value.substring(end);
 
         this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
@@ -286,6 +284,33 @@ export class Keyboard {
         return;
       }
     }
+
+    if (
+      document.getElementById('ControlLeft').classList.contains('active') &&
+      document.getElementById('AltLeft').classList.contains('active')
+    ) {
+      switch (this.currentLanguage) {
+        case ru:
+          this.currentLanguage = en;
+          break;
+
+        case ruU:
+          this.currentLanguage = enU;
+          break;
+
+        case en:
+          this.currentLanguage = ru;
+          break;
+
+        case enU:
+          this.currentLanguage = ruU;
+          break;
+      }
+      this.remove();
+      this.render(document.querySelector('.container'));
+      document.getElementById('ControlLeft').classList.add('active');
+      document.getElementById('AltLeft').classList.add('active');
+    }
   }
 
   keyUp(e) {
@@ -321,24 +346,88 @@ export class Keyboard {
       }
   }
 
-  countletterInString() {
-    const split = this.textarea.value.split('\n').map((line) => {
-      if (line.length > 79) {
-        let { length } = line;
-        const countStr = [];
-        while (length > 79) {
-          countStr.push(79);
-          length -= 79;
-        }
-        if (length > 0) {
-          countStr.push(length);
-        }
-        return countStr;
+  mouseDown(e) {
+    console.log(e);
+    if (
+      e.target.closest('.key') === document.getElementById('ShiftLeft') ||
+      e.target.closest('.key') === document.getElementById('ShiftRight')
+    ) {
+      switch (this.currentLanguage) {
+        case ru:
+          this.currentLanguage = ruU;
+          break;
+
+        case ruU:
+          this.currentLanguage = ru;
+          break;
+
+        case en:
+          this.currentLanguage = enU;
+          break;
+
+        case enU:
+          this.currentLanguage = en;
+          break;
       }
-      return line.length;
-    });
-    const result = split.flat();
-    return result;
+    } else if (
+      e.target.closest('.key') === document.getElementById('AltLeft') &&
+      document.getElementById('ControlLeft').classList.contains('active')
+    ) {
+      switch (this.currentLanguage) {
+        case ru:
+          this.currentLanguage = en;
+          break;
+
+        case ruU:
+          this.currentLanguage = enU;
+          break;
+
+        case en:
+          this.currentLanguage = ru;
+          break;
+
+        case enU:
+          this.currentLanguage = ruU;
+          break;
+      }
+
+      this.remove();
+      this.render(document.querySelector('.container'));
+      document.getElementById('ControlLeft').classList.add('active');
+      return;
+    }
+
+    this.remove();
+    this.render(document.querySelector('.container'));
+  }
+
+  mouseUp(e) {
+    if (
+      e.target.closest('.key') === document.getElementById('ShiftLeft') ||
+      e.target.closest('.key') === document.getElementById('ShiftRight')
+    ) {
+      switch (this.currentLanguage) {
+        case ru:
+          this.currentLanguage = ruU;
+          break;
+
+        case ruU:
+          this.currentLanguage = ru;
+          break;
+
+        case en:
+          this.currentLanguage = enU;
+          break;
+
+        case enU:
+          this.currentLanguage = en;
+          break;
+      }
+      this.remove();
+      this.render(document.querySelector('.container'));
+
+      return;
+    }
   }
 
   remove() {
