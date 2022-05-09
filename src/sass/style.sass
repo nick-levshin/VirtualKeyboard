@@ -1,0 +1,130 @@
+*, *::after, *::before
+  box-sizing: border-box
+
+body
+  font-family: 'Roboto', sans-serif
+  &.body-dark
+    background-color: rgb(54, 54, 54)
+  
+.container 
+  max-width: 1200px
+  padding: 0 30px
+  margin: 0 auto
+  height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+.keyboard
+  display: flex
+  max-width: 1000px
+  width: 100%
+  margin: 0 auto
+  justify-content: center
+  flex-direction: column
+  align-items: center
+  background-color: #e7e7e7
+  position: relative
+  &.keyboard-dark
+    background-color: #585858
+
+.row
+  display: flex
+  width: 100%
+
+.key
+  width: 60px
+  height: 60px
+  background-color: #fff
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  margin: 4px
+  padding: 10px
+  border-radius: 4px
+  transition: all .2s
+  cursor: pointer
+  &.active
+    background-color: #353535
+    color: #fff
+  &.key-dark
+    background-color: #3c3c3c
+    color: #fff
+    &.active
+      color: #333
+      background-color: #fff
+
+.arrow
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: center
+  margin: 0 auto
+  width: 20px
+  height: 20px
+
+.arrow-up
+  background-image: url('../images/up-arrow.png')
+
+.arrow-left
+  background-image: url('../images/left-arrow.png')
+
+.arrow-down
+  background-image: url('../images/down-arrow.png')
+
+.arrow-right
+  background-image: url('../images/right-arrow.png')
+
+.up
+  margin-bottom: 0
+
+.up, .down
+  height: 28px
+  padding: 0
+   
+.backspace
+  width: 108px
+
+.tab, .row:nth-child(2) > .key:last-child
+  width: 84px
+
+.caps
+  width: 114px
+
+.enter
+  width: 122px
+
+.shift
+  width: 152px
+
+.up-down
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+.space
+  width: 380px
+
+.text
+  max-width: 1000px
+  width: 100%
+  height: 100px
+  resize: none
+  margin-bottom: 30px
+  border: none
+  outline: none
+  background-color: #eeeded
+  font-size: 26px
+  padding: 10px
+  transition: background-color .2s
+  &.text-dark
+    background-color: #2b2b2b
+
+.info
+  text-align: center
+  margin-bottom: 30px
+  p
+    margin-top: 10px
+
+
