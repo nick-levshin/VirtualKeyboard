@@ -1,0 +1,23 @@
+{
+  "name": "virtualkeyboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nick-levshin/VirtualKeyboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nick-levshin/VirtualKeyboard/issues"
+  },
+  "homepage": "https://github.com/nick-levshin/VirtualKeyboard#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0"
+  }
+}

@@ -2,7 +2,8 @@ import { ru, en, ruU, enU, codes } from './language.js';
 
 export class Keyboard {
   constructor() {
-    this.currentLanguage = en;
+    this.currentLanguage =
+      JSON.parse(localStorage.getItem('currentLanguage')) || en;
   }
 
   render(element) {
@@ -62,7 +63,7 @@ export class Keyboard {
 
     keys.forEach((key) => {
       result += `
-        <div class="key">${key}</div>
+        <div class="key" keyname="${key}">${key}</div>
       `;
     });
 
@@ -105,47 +106,54 @@ export class Keyboard {
 
     if (type === 'keyboard') {
       if (e.code === 'CapsLock') {
-        switch (this.currentLanguage) {
-          case ru:
-            this.currentLanguage = ruU;
+        switch (this.currentLanguage[0]) {
+          case ru[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ruU));
             break;
 
-          case ruU:
-            this.currentLanguage = ru;
+          case ruU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ru));
             break;
 
-          case en:
-            this.currentLanguage = enU;
+          case en[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(enU));
             break;
 
-          case enU:
-            this.currentLanguage = en;
+          case enU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(en));
             break;
         }
 
+        this.currentLanguage = JSON.parse(
+          localStorage.getItem('currentLanguage')
+        );
+        console.log(this.currentLanguage);
         this.remove();
         this.render(document.querySelector('.container'));
 
         document.getElementById(e.code).classList.add('active');
       } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-        switch (this.currentLanguage) {
-          case ru:
-            this.currentLanguage = ruU;
+        switch (this.currentLanguage[0]) {
+          case ru[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ruU));
             break;
 
-          case ruU:
-            this.currentLanguage = ru;
+          case ruU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ru));
             break;
 
-          case en:
-            this.currentLanguage = enU;
+          case en[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(enU));
             break;
 
-          case enU:
-            this.currentLanguage = en;
+          case enU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(en));
             break;
         }
 
+        this.currentLanguage = JSON.parse(
+          localStorage.getItem('currentLanguage')
+        );
         this.remove();
         this.render(document.querySelector('.container'));
 
@@ -193,7 +201,7 @@ export class Keyboard {
       if (tmpKey.hasAttribute('keyname')) {
         this.textarea.value =
           this.textarea.value.substring(0, start) +
-          tmpKey.innerHTML.replace('&lt;', '<').replace('&gt;', '>') +
+          tmpKey.getAttribute('keyname') +
           this.textarea.value.substring(end);
 
         this.textarea.selectionStart = this.textarea.selectionEnd = start + 1;
@@ -289,23 +297,27 @@ export class Keyboard {
       document.getElementById('ControlLeft').classList.contains('active') &&
       document.getElementById('AltLeft').classList.contains('active')
     ) {
-      switch (this.currentLanguage) {
-        case ru:
-          this.currentLanguage = en;
+      switch (this.currentLanguage[0]) {
+        case ru[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
 
-        case ruU:
-          this.currentLanguage = enU;
+        case ruU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(enU));
           break;
 
-        case en:
-          this.currentLanguage = ru;
+        case en[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ru));
           break;
 
-        case enU:
-          this.currentLanguage = ruU;
+        case enU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
       }
+
+      this.currentLanguage = JSON.parse(
+        localStorage.getItem('currentLanguage')
+      );
       this.remove();
       this.render(document.querySelector('.container'));
       document.getElementById('ControlLeft').classList.add('active');
@@ -315,24 +327,27 @@ export class Keyboard {
 
   keyUp(e) {
     if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-      switch (this.currentLanguage) {
-        case ru:
-          this.currentLanguage = ruU;
+      switch (this.currentLanguage[0]) {
+        case ru[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
 
-        case ruU:
-          this.currentLanguage = ru;
+        case ruU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ru));
           break;
 
-        case en:
-          this.currentLanguage = enU;
+        case en[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(enU));
           break;
 
-        case enU:
-          this.currentLanguage = en;
+        case enU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
       }
 
+      this.currentLanguage = JSON.parse(
+        localStorage.getItem('currentLanguage')
+      );
       this.remove();
       this.render(document.querySelector('.container'));
 
@@ -347,56 +362,59 @@ export class Keyboard {
   }
 
   mouseDown(e) {
-    console.log(e);
     if (
       e.target.closest('.key') === document.getElementById('ShiftLeft') ||
       e.target.closest('.key') === document.getElementById('ShiftRight')
     ) {
-      switch (this.currentLanguage) {
-        case ru:
-          this.currentLanguage = ruU;
+      switch (this.currentLanguage[0]) {
+        case ru[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
 
-        case ruU:
-          this.currentLanguage = ru;
+        case ruU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ru));
           break;
 
-        case en:
-          this.currentLanguage = enU;
+        case en[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(enU));
           break;
 
-        case enU:
-          this.currentLanguage = en;
+        case enU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
       }
     } else if (
       e.target.closest('.key') === document.getElementById('AltLeft') &&
       document.getElementById('ControlLeft').classList.contains('active')
     ) {
-      switch (this.currentLanguage) {
-        case ru:
-          this.currentLanguage = en;
+      switch (this.currentLanguage[0]) {
+        case ru[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(en));
           break;
 
-        case ruU:
-          this.currentLanguage = enU;
+        case ruU[[0]]:
+          localStorage.setItem('currentLanguage', JSON.stringify(enU));
           break;
 
-        case en:
-          this.currentLanguage = ru;
+        case en[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ru));
           break;
 
-        case enU:
-          this.currentLanguage = ruU;
+        case enU[0]:
+          localStorage.setItem('currentLanguage', JSON.stringify(ruU));
           break;
       }
 
+      this.currentLanguage = JSON.parse(
+        localStorage.getItem('currentLanguage')
+      );
       this.remove();
       this.render(document.querySelector('.container'));
       document.getElementById('ControlLeft').classList.add('active');
       return;
     }
 
+    this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
     this.remove();
     this.render(document.querySelector('.container'));
   }
@@ -406,20 +424,20 @@ export class Keyboard {
       e.target.closest('.key') === document.getElementById('ShiftLeft') ||
       e.target.closest('.key') === document.getElementById('ShiftRight')
     ) {
-      switch (this.currentLanguage) {
-        case ru:
+      switch (this.currentLanguage[0]) {
+        case ru[0]:
           this.currentLanguage = ruU;
           break;
 
-        case ruU:
+        case ruU[0]:
           this.currentLanguage = ru;
           break;
 
-        case en:
+        case en[0]:
           this.currentLanguage = enU;
           break;
 
-        case enU:
+        case enU[0]:
           this.currentLanguage = en;
           break;
       }
