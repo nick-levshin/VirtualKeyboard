@@ -183,11 +183,12 @@ export default class Keyboard {
         this.textarea.value = `${this.textarea.value.substring(0, start)}${document
           .getElementById(e.code)
           .innerHTML.replace('&lt;', '<')
-          .replace('&gt;', '>')}${this.textarea.value.substring(end)}`;
+          .replace('&gt;', '>').replace('&amp;', '&')}${this.textarea.value.substring(end)}`;
 
         for (let i = 0; i < this.keys.length; i += 1) {
-          if (e.key === this.keys[i].getAttribute('keyname')) {
+          if (e.code === this.keys[i].getAttribute('id')) {
             this.keys[i].classList.add('active');
+            break;
           }
         }
       }
@@ -337,8 +338,9 @@ export default class Keyboard {
       document.getElementById(e.code).classList.remove('active');
     } else {
       for (let i = 0; i < this.keys.length; i += 1) {
-        if (e.key === this.keys[i].getAttribute('keyname')) {
+        if (e.code === this.keys[i].getAttribute('id')) {
           this.keys[i].classList.remove('active');
+          break;
         }
       }
     }
