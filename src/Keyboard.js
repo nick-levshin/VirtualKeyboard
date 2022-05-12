@@ -273,6 +273,33 @@ export default class Keyboard {
         this.textarea.selectionEnd = start + 1;
         return;
       }
+
+      if (tmpKey.classList.contains('caps')) {
+        switch (this.currentLanguage[0]) {
+          case ru[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ruU));
+            break;
+
+          case ruU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(ru));
+            break;
+
+          case en[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(enU));
+            break;
+
+          case enU[0]:
+            localStorage.setItem('currentLanguage', JSON.stringify(en));
+            break;
+
+          default: break;
+        }
+
+        this.currentLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
+        this.remove();
+        this.render(document.querySelector('.container'));
+        return;
+      }
     }
 
     if (
